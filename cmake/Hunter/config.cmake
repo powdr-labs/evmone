@@ -4,11 +4,6 @@
 
 include(hunter_cmake_args)
 
-hunter_cmake_args(
-    ethash
-    CMAKE_ARGS -DETHASH_BUILD_ETHASH=OFF
-)
-
 hunter_config(
     intx
     VERSION 0.10.0

@@ -4,9 +4,6 @@
 
 include(LibraryTools)
 
-hunter_add_package(intx)
-find_package(intx CONFIG REQUIRED)
-
 add_library(evmone
     ${include_dir}/evmone/evmone.h
     advanced_analysis.cpp
@@ -26,6 +23,7 @@ add_library(evmone
     instructions_storage.cpp
     instructions_traits.hpp
     instructions_xmacro.hpp
+    keccak.hpp
     opcodes_helpers.h
     tracing.cpp
     tracing.hpp
@@ -33,7 +31,7 @@ add_library(evmone
     vm.hpp
 )
 target_compile_features(evmone PUBLIC cxx_std_20)
-target_link_libraries(evmone PUBLIC evmc::evmc intx::intx PRIVATE ethash::keccak)
+target_link_libraries(evmone PUBLIC evmc::evmc intx::intx)
 target_include_directories(evmone PUBLIC
     $<BUILD_INTERFACE:${include_dir}>$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
@@ -50,11 +48,13 @@ if(CABLE_COMPILER_GNULIKE)
         -fno-exceptions
         $<$<CXX_COMPILER_ID:GNU>:-Wstack-usage=2600>
     )
+
     if(NOT SANITIZE MATCHES undefined)
         # RTTI can be disabled except for UBSan which checks vptr integrity.
         target_compile_options(evmone PRIVATE -fno-rtti)
     endif()
 endif()
+
 set_target_properties(
     evmone
     PROPERTIES

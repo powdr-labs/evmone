@@ -4,7 +4,7 @@
 
 add_library(evmone-state STATIC)
 add_library(evmone::state ALIAS evmone-state)
-target_link_libraries(evmone-state PUBLIC evmc::evmc_cpp PRIVATE evmone ethash::keccak)
+target_link_libraries(evmone-state PUBLIC evmc::evmc_cpp PRIVATE evmone)
 target_include_directories(evmone-state PRIVATE ${evmone_private_include_dir})
 target_sources(
     evmone-state PRIVATE
@@ -12,8 +12,6 @@ target_sources(
     bloom_filter.hpp
     bloom_filter.cpp
     errors.hpp
-    hash_utils.hpp
-    hash_utils.cpp
     host.hpp
     host.cpp
     mpt.hpp

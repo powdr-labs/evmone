@@ -8,7 +8,7 @@
 #include "execution_state.hpp"
 #include "instructions_traits.hpp"
 #include "instructions_xmacro.hpp"
-#include <ethash/keccak.hpp>
+#include "keccak.hpp"
 
 namespace evmone
 {
@@ -363,7 +363,7 @@ inline Result keccak256(StackTop stack, int64_t gas_left, ExecutionState& state)
         return {EVMC_OUT_OF_GAS, gas_left};
 
     auto data = s != 0 ? &state.memory[i] : nullptr;
-    size = intx::be::load<uint256>(ethash::keccak256(data, s));
+    size = intx::be::load<uint256>(keccack::keccak256(bytes_view(data, s)));
     return {EVMC_SUCCESS, gas_left};
 }
 
